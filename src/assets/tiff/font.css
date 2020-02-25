@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'hanyi';  //重命名字体名
+  src: url('汉仪细行楷简.ttf');  //引入字体
+  font-weight: normal;
+  font-style: normal;
+  @charset "utf-8";
+}
