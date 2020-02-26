@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: #f3f898">
-    <Header></Header>
+    <Header v-bind:title="title"></Header>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
       components: {Header,},
       data() {
           return {
-
+              title:'视频',
           }
       },
       mounted() {

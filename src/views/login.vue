@@ -44,8 +44,8 @@
     data () {
       return {
         loginForm: {
-          userName: 'zhangsan',
-          password: ''
+          userName: 'sysadmin',
+          password: '111111'
         },
         errMsg: {
           userName: '',

@@ -16,6 +16,8 @@
 
 <script>
   const LOVE_DATE = '2019-05-14';
+  import axios from 'axios'
+  import {getServerUrl} from '@/config/system.js'
   export default {
     data() {
       return {
@@ -34,16 +36,16 @@
       }
     },
     computed: {
-      loveDay(){
-
-      }
+    },
+    mounted(){
+      // setInterval(this.refreshToken,1000*60*10)  // 10分钟刷新一次token
+      setInterval(this.refreshToken,1000*60)  // 10分钟刷新一次token
     },
     methods: {
       handleClick(data){
         this.$router.togo(data.goto);
       },
       doAdd(){
-
         this.$router.togo('/add');
       },
       //计算相恋天数
@@ -55,6 +57,20 @@
         //毫秒数除以一天的毫秒数,就得到了天数
         let days = Math.floor(ms / (24 * 3600 * 1000));
         return days + 1;
+      },
+      refreshToken() {
+        let url=getServerUrl('refreshToken');
+        let token = window.sessionStorage.getItem('token')
+        axios.defaults.headers.common['token'] = token;
+        axios.get(url,{}).then(response=>{
+          console.log(response);
+          if(response.data.code == 200){
+            window.sessionStorage.setItem('token',response.data.data);
+            console.log('token刷新成功')
+          }
+        }).catch(error=>{
+          alert("token刷新失败!"+'-请联系管理员')
+        })
       },
     },
   }
