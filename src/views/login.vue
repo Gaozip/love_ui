@@ -80,7 +80,7 @@
         axios.post(url,param).then(response=>{
           console.info(response);
             if(response.data.code == 200){
-              window.sessionStorage.setItem('token',response.data.data);
+              window.localStorage.setItem('token',response.data.data);
               console.log(this)
               this.$router.replace('/home')
             }else{
@@ -95,7 +95,7 @@
       },
       clearToken(){
         // if(!!window.sessionStorage.getItem("token")){
-          window.sessionStorage.removeItem("token");
+          window.localStorage.removeItem("token");
           console.log("session清空成功!");
         //   window.location.reload();
         // }

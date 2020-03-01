@@ -1,9 +1,13 @@
 <template>
   <div style="background-color: #f3f898">
-    <Header v-bind:title="title"></Header>
+    <Header v-bind:title="title" ref="header"></Header>
     <van-form @submit="handleAdd()">
       <van-field v-model="form.menuName" name="menuName" label="菜单名称" placeholder="菜单名称"/>
-      <van-field v-model="form.menuCode" name="menuCode" label="菜单标识" placeholder="菜单标识"/>
+      <van-field v-model="form.menuCode"
+                 name="menuCode"
+                 label="菜单标识"
+                 placeholder="菜单标识"
+                 :rules="[{validator: existValidator, message: '请输入正确内容' }]"/>
       <van-field v-model="form.iconName" name="iconName" label="图标名称" placeholder="图标名称"/>
       <van-field v-model="form.menuRouter" name="menuRouter" label="菜单路由" placeholder="菜单路由"/>
       <van-field v-model="form.menuDesc" name="menuDesc" label="功能描述" placeholder="功能描述"/>
@@ -21,6 +25,7 @@
   import {getServerUrl} from '@/config/system.js'
   import Header from 'common/header'
   import { Dialog } from 'vant';
+  import { Toast } from 'vant';
   export default {
       components: {Header,},
       data() {
@@ -54,13 +59,45 @@
             menuDesc: this.form.menuDesc,
           };
           axios.post(url,param).then(response=>{
-            Dialog.alert({
-              title: '提示',
-              message: response.data.message
-            }).then(() => {
-              // on close
+            if(response.data.code === 200){
+              Dialog.alert({
+                title: '提示',
+                message: '添加成功!'
+              }).then(() => { });
+            }else{
+              Dialog.alert({
+                title: '提示',
+                message: response.data.message
+              }).then(() => {});
+            }
+            this.$refs.header.goBack();
+          }).catch(error=>{0
+          });
+        },
+        existValidator(val){
+          return new Promise(resolve => {
+
+            let result = 0;
+            Toast.loading('验证中...');
+
+            let url=getServerUrl('menu/checkMenuExist');
+            let token=window.localStorage.getItem('token');
+
+            axios.defaults.headers.common['token'] = token;
+            let param = {
+              menuCode: this.form.menuCode,
+              menuRouter: this.form.menuRouter,
+            };
+            axios.post(url,param).then(response=>{
+              if(!!response.data.checkExist){
+                result = response.data.checkExist;
+              }
             });
-          }).catch(error=>{});
+            setTimeout(() => {
+              Toast.clear();
+              resolve(result == 0);
+            }, 4000);
+          });
         },
       }
     }
