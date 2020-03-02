@@ -28,6 +28,8 @@
   const LOVE_DATE = '2019-05-14';
   import axios from 'axios'
   import {getServerUrl} from '@/config/system.js'
+  import { Dialog } from 'vant';
+  import { Toast } from 'vant';
   export default {
     data() {
       return {
@@ -86,8 +88,8 @@
       },
       queryMenu(){
         let url=getServerUrl('menu');
-        let token = window.localStorage.getItem('token')
-        axios.defaults.headers.common['token'] = token;
+        // let token = window.localStorage.getItem('token')
+        // axios.defaults.headers.common['token'] = token;
         axios.get(url,{}).then(response=>{
           this.menuData = response.data.data;
         });
@@ -96,13 +98,21 @@
         console.log(data)
         clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
         this.Loop = setTimeout(function() {
-          this.$dialog.confirm({
-            message: '是否删除地址'
+          Dialog.confirm({
+            title: '提示',
+            message: '是否删除该功能?'
           }).then(() => {
-            console.log("删除")
-            // this.arr.splice(index, 1);
+            let url=getServerUrl('menu/deleteByMenuCode/') + data;
+            axios.delete(url,{}).then(response=>{
+              if(response.data.code == 200){
+                Toast.success('删除成功!');
+              }else{
+                Toast.error(response.data.message);
+              }
+              this.queryMenu();
+            });
           }).catch(() => {
-            console.log("不删")
+            // on cancel
           });
         }.bind(this), 1000);
       },
