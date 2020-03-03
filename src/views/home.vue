@@ -8,9 +8,10 @@
     <span v-for="item in menuData" style="float: left">
       <van-button :icon="item.iconName"
                   class="features-btn"
-                  @click="handleClick(item)"
-                  @touchstart.prevent="touchin(item.menuCode)"
-                  @touchend.prevent="cleartime(item.menuCode)"></van-button>
+                  @click="handleClick(item)" >
+                  <!--@touchstart.prevent="touchin(item.menuCode)"-->
+                  <!--@touchend.prevent="cleartime(item.menuCode)"-->
+     </van-button>
       <div style="font-family: hanyi">{{item.menuName}}</div>
     </span>
     <span style="float: left">
@@ -114,7 +115,7 @@
           }).catch(() => {
             // on cancel
           });
-        }.bind(this), 1000);
+        }.bind(this), 2000);
       },
       cleartime(data) {
         // 这个方法主要是用来将每次手指移出之后将计时器清零

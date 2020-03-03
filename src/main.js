@@ -8,16 +8,10 @@ import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import './assets/iconFont/iconfont.css'
-import viewPhoto  from 'vuk-view-photo'
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
 
-Vue.use(viewPhoto, {
-  locale: 'zh',//zh,en,ja
-  failImg: { //图片加载失败显示的图片, 有默认的图片
-    src: '图片url',
-    w: 200,//图片宽度，
-    h: 200 //图片高度
-  }
-});
+Vue.use(preview);
 Vue.use(Vant);
 Vue.use(Vuex);
 Vue.config.productionTip = false;

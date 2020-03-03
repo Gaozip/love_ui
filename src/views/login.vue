@@ -21,6 +21,7 @@
                      placeholder="密码"
                      :rules="[{ required: true, message: '请填写密码' }]" />
           <div style="margin: 5px;padding-right:10px;float: right">
+            <a style="color: #26a2ff;padding-right: 10px;" @click="registerUser">用户注册</a>
             <a style="color: #26a2ff;" @click="forgetPassword">忘记密码</a>
           </div>
           <van-button size="large"
@@ -28,9 +29,23 @@
                       color="linear-gradient(to right, #FF7AE1, #26a2ff)"
                       native-type="submit">登录
           </van-button>
+          <div style="margin: 5px;padding-right:10px;float: right">
+            <a style="color: #26a2ff;" @click="forgetPassword">第三方登录</a>
+          </div>
+          <div style="margin: 5px;float: right">
+            <span v-for="item in imageList">
+              <van-image width="20" height="20" style="margin-right: 10px;" :src="item" />
+            </span>
+          </div>
         </van-form>
       </div>
     </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div style="text-align: center;font-size: 6px;">Copyright © 2020 Garfield and LittleFairy.</div>
   </div>
 </template>
 
@@ -52,6 +67,11 @@
           password: '',
         },
         pwdType: 'password',
+        imageList:[
+          require('@/assets/otherLoginCase/qq.png'),
+          require('@/assets/otherLoginCase/wchat.png'),
+          require('@/assets/otherLoginCase/weibo.png'),
+        ],
       }
     },
     mounted(){
@@ -99,6 +119,9 @@
           console.log("session清空成功!");
         //   window.location.reload();
         // }
+      },
+      registerUser(){
+
       },
     }
   }
